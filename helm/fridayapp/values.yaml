@@ -1,0 +1,25 @@
+# Default values for fridayapp.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: ysmolyaninov/fridayapp
+  tag: 0.1
+  pullPolicy: Always
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: NodePort
+  port: 80
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

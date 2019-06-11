@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "fridayapp.name" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "fridayapp.name" . }}
+    helm.sh/chart: {{ include "fridayapp.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: {{ include "fridayapp.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}

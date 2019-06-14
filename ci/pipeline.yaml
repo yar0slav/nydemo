@@ -1,0 +1,96 @@
+resource_types:
+- name: helm
+  type: docker-image
+  source:
+    repository: linkyard/concourse-helm-resource
+    tag: 2.13.0
+
+resources:
+- name: git-master
+  type: git
+  source:
+    uri: https://github.com/yar0slav/nydemo.git
+    branch: master
+    password: ((github_token))
+
+- name: version
+  type: semver
+  source:
+    driver: git
+    uri: https://github.com/yar0slav/nydemo.git
+    branch: version
+    file: version
+    username: ((github_username))
+    password: ((github_token))
+
+- name: fridayapp-image
+  type: docker-image
+  source:
+    repository: ysmolyaninov/fridayapp
+    username: ((dockerhub_user))
+    password: ((dockerhub_password))
+
+- name: golang-1.12-image
+  type: registry-image
+  icon: docker
+  source:
+    repository: golang
+    tag: 1.12-stretch
+
+- name: fridayapp-helm
+  type: helm
+  source:
+    release: friday-app
+    cluster_url: ((cluster_url))
+    cluster_ca: ((cluster_ca))
+    admin_key: ((admin_key))
+    admin_cert: ((admin_cert))
+jobs:  
+- name: run-tests
+  plan:
+  - get: git-master
+    trigger: true
+  - get: golang-1.12-image
+  - get: version
+    params: {bump: minor}
+  - task: run-tests
+    image: golang-1.12-image
+    config:
+      platform: linux
+      inputs:
+      - name: git-master
+      run:
+        dir: git-repo
+        path: /bin/sh
+        args:
+          - -c
+          - GOPATH=$PWD/go
+          - go test -v
+  - put: version
+    params: {file: version/version}
+
+- name: build
+  plan:
+  - get: git-master
+    trigger: true
+    passed: [run-tests]
+  - get: version
+  - put: fridayapp-image
+    params: 
+      build: git-master
+      tag_file: version/version
+
+- name: deploy
+  plan:
+  - get: git-master
+    trigger: true
+    passed: [build]
+  - get: version
+  - put: fridayapp-helm
+    params: 
+      chart: git-master/helm/fridayapp
+      values: git-master/helm/fridayapp/values.yaml
+      override_values:
+      - key: image.tag
+        path: version/version 
+        type: string

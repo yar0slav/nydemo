@@ -6,8 +6,11 @@ replicaCount: 1
 
 image:
   repository: ysmolyaninov/fridayapp
-  tag: 0.1
+  tag: 0.1.0
   pullPolicy: Always
+
+application:
+  version: 0.1.0
 
 nameOverride: ""
 fullnameOverride: ""
@@ -15,6 +18,7 @@ fullnameOverride: ""
 service:
   type: NodePort
   port: 80
+  nodePort: 31000
 
 resources: {}
 

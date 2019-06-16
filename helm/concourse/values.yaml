@@ -19,7 +19,7 @@ image: concourse/concourse
 ##      of `concourse/concourse`.
 ## Ref: https://hub.docker.com/r/concourse/concourse/tags/
 ##
-imageTag: "5.2.0"
+imageTag: "5.3.0"
 
 ## Specific image digest to use in place of a tag.
 ## Ref: https://kubernetes.io/docs/concepts/configuration/overview/#container-images
@@ -152,7 +152,7 @@ concourse:
     ##
     ## Example: http://ci.concourse-ci.org
     ##
-    externalUrl: http://192.168.99.100:31155
+    externalUrl: http://minikube:31155
 
     encryption:
       ## Enable encryption of pipeline configuration. Encryption keys can be set via secrets

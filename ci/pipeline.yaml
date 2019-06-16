@@ -94,3 +94,6 @@ jobs:
       - key: image.tag
         path: version/version 
         type: string
+      - key: application.version
+        path: version/version 
+        type: string

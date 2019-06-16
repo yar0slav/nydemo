@@ -1,0 +1,19 @@
+  - name: get helm
+    unarchive:
+      src: https://storage.googleapis.com/kubernetes-helm/helm-v2.13.0-linux-amd64.tar.gz
+      dest: /tmp
+      creates: /usr/local/bin/helm
+      remote_src: yes
+
+  - name: move helm to PATH
+    command: >
+      cp /tmp/linux-amd64/helm /usr/local/bin/helm
+      creates=/usr/local/bin/helm
+
+  - name: istall tiller
+    become: yes
+    become_user: vagrant
+    command: helm init --history-max 20 --wait
+    register: helm_init_result
+    changed_when: "'already installed' not in helm_init_result.stdout"
+

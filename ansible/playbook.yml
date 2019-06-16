@@ -1,0 +1,13 @@
+---
+- hosts: minikube
+  connection: local
+  become: yes
+  gather_facts: True
+
+ 
+  roles: 
+    - {role: install-minikube} 
+    - {role: launch-minikube} 
+    - {role: install-helm}
+    - {role: install-concourse}
+    - {role: setup-pipeline} 

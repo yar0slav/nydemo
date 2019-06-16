@@ -1,0 +1,82 @@
+  - name: add docker apt key
+    apt_key: url=https://download.docker.com/linux/ubuntu/gpg
+
+  - name: add docker repository
+    apt_repository:
+      repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ansible_distribution_release}} stable
+
+  - name: install packages
+    apt:
+      name: ['apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'nfs-common', 'socat', 'docker-ce=18.06.2~ce~3-0~ubuntu']
+      state: present
+      update_cache: yes
+
+  - name: usermod -aG docker vagrant
+    user:
+      name: vagrant
+      groups: docker
+
+  - name: set sysctl 
+    sysctl:
+      name: net.bridge.bridge-nf-call-iptables
+      value: '1'
+      sysctl_set: yes
+      sysctl_file: /etc/sysctl.conf      
+      state: present
+      reload: yes
+
+  - name: get binaries
+    get_url: url="{{ item.url }}" dest="{{ item.dest }}" mode=0755 owner=root group=root force=no
+    with_items:
+      - url: https://storage.googleapis.com/kubernetes-release/release/v1.13.4/bin/linux/amd64/kubectl
+        dest: /usr/local/bin/kubectl
+      - url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        dest: /usr/local/bin/minikube
+
+  - name: first minikube launch 
+    command: /usr/local/bin/minikube start --vm-driver none 
+    args:
+      chdir: /root
+      creates: /root/.kube
+    register: mini      
+  
+  ## Ugly wait for containers to start
+  ## Should be rewritten for day2day usage
+
+  - name: waiting
+    command: sleep 30
+    args:
+      creates: /root/.kube
+
+  
+  - name: stopping Minikube
+    command: /usr/local/bin/minikube stop
+    args:
+      creates: /root/.kube
+
+  ## Waiting for shutdown  
+  - name: waiting
+    command: sleep 30
+    args:
+      creates: /root/.kube
+
+  ## Move configs to vagrant user
+
+  - shell: cp -r /root/.kube /home/vagrant/.kube
+    args:
+      creates: /home/vagrant/.kube
+  - shell: cp -r /root/.minikube /home/vagrant/.minikube
+    args:
+      creates: /home/vagrant/.minikube
+
+  - name: chown configs
+    file: dest="/home/vagrant/{{ item }}" recurse=true owner=vagrant group=vagrant
+    with_items:
+      - .kube
+      - .minikube
+
+  - name: change path
+    command: sed -i -e 's|root|home\/vagrant|g' /home/vagrant/.kube/config
+    args:
+      warn: false
+

@@ -1,0 +1,16 @@
+  - name: list Helm charts
+    become: yes
+    become_user: vagrant
+    command: helm list
+    register: helm_list_results
+    changed_when: False
+
+  - name: install concourse chart
+    become: yes
+    become_user: vagrant
+    command: >
+      helm install --name concourse stable/concourse 
+      -f helm/concourse/values.yaml
+    args:
+      chdir: /home/vagrant/nydemo
+    when: "'concourse' not in helm_list_results.stdout"

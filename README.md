@@ -58,7 +58,8 @@ vagrant up
 and allow it to perform administrative tasks
 6. Grab a coffee and let it do the magic - it may take a while. Depending on your connection speed
 
-7. Once everything's finished CI dashboard will be available under (http://minikube:31155). Click on login and use `test` as login and password 
+7. Once everything's finished CI dashboard will be available under http://minikube:31155<br/>
+Click on login and use `test` as login and password 
 
 8. Concourse should find new code on Github and trigger the pipeline otherwise just click on run-tests bar and then on `+` in the upper right corner to trigger the pipeline. (Note, that all this setup has quite some virtualisation layers and concourse is using docker-engine heavily, so it may happen that CI will never finish due to hardware limitations)
 Meanwhile you can watch pipeline running:
@@ -68,7 +69,7 @@ And finally when it's finished:
 ![success](images/Concourse_success.jpg)
 
 9. If you were lucky enough and CI finished, you can enjoy the result under 
-(http://minikube:31000)
+http://minikube:31000
 
 10. When you're done, don't forget to remove file with your credentials:
 ```

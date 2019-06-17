@@ -1,7 +1,7 @@
 # NYDemo
 
 ## Disclamer
-this is not something useful, just a DevOps style Hello World addplication setup with a number of limitations and ugly shortcuts.
+this is not something useful, just a DevOps style Hello World application setup with a number of limitations and ugly shortcuts.
 
 ## Project limitations
 Set up avoids security topics - no RBAC provided, no accounts created in concourse (test credentials were used), no secret storage like Vault is used, no ImagePullSecret added to k8s etc<br/>
@@ -12,7 +12,7 @@ Resulting UI are availabe on ad-hoc urls like `host:nonStandardPort` just becaus
 
 ## Dependencies
 To run the project latest [Vagrant](https://www.vagrantup.com/docs/installation/) and [Oracle Virtualbox]() should be installed. CI artifact is a docker image stored on Dockerhub, which means that to run the project one should either get permissions to push there or create own one and update application chart values.
-Once vagrant is in place add required plugins:
+Once vagrant is in place add the required plugins:
 ```
 vagrant plugin install vagrant-disksize
 ```
@@ -27,7 +27,7 @@ Vagrant is launching a virtual machine and uses ansible playbook to provision Mi
 
 ## Running
 ### Pre-requirements.
-This set up requires a valid github token [see here how to create one](https://help.github.com/en/articles/ allowed to push to this repo as version is tracked in version branch (creating-a-personal-access-token-for-the-command-line) and a Dockerhub account authorised to push to selected repository
+This set up requires a valid github token [see here how to create one](https://help.github.com/en/articles/) allowed to push to this repo as version is tracked in version branch (creating-a-personal-access-token-for-the-command-line) and a Dockerhub account authorised to push to selected repository
 
 ### Step-by-step instructions
 0. Install Vagrant and Virtualbox (instructions above) on a powerfull enough machine.
@@ -56,7 +56,8 @@ and fill it with your data
 vagrant up
 ```
 and allow it to perform administrative tasks
-6. Grab a coffee and let it do the magic - it may take a while. Depending on your connection speed
+
+6. Grab a coffee and let it do the magic - it might take a while depending on your connection speed and host system resources
 
 7. Once everything's finished CI dashboard will be available under http://minikube:31155<br/>
 Click on login and use `test` as login and password 
@@ -68,10 +69,16 @@ Meanwhile you can watch pipeline running:
 And finally when it's finished:
 ![success](images/Concourse_success.jpg)
 
-9. If you were lucky enough and CI finished, you can enjoy the result under 
+9. If you were lucky enough and CI has finished, you can enjoy the result under 
 http://minikube:31000
 
 10. When you're done, don't forget to remove file with your credentials:
 ```
 rm -f ci/credentials.yaml
 ```
+and destroy vagrant box to free computer power for something more useful:
+```
+vagrant destroy
+```
+
+11. Put you coffee cup into the dishwasher :)

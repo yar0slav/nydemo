@@ -4,10 +4,10 @@
 this is not something useful, just a DevOps style Hello World addplication setup with a number of limitations and ugly shortcuts.
 
 ## Project limitations
-Set up avoids security topics - no RBAC provided, no accounts created in concourse (test credentials were used), no secret storage like Vault is used etc.
-SSL is not configured anywhere.
-Provisioning of minikube was a requirement so the most natural 'hosting solution' for it was local VM provisioned with Vagrant.
-Because this is not supposed to be usefull in any way, Minikube persistent Volumes are not mounted from host machine so not persistent over vagrant recreations. 
+Set up avoids security topics - no RBAC provided, no accounts created in concourse (test credentials were used), no secret storage like Vault is used, no ImagePullSecret added to k8s etc<br/>
+SSL is not configured anywhere<br/>
+Provisioning of minikube was a requirement so the most natural 'hosting solution' for it was local VM provisioned with Vagrant<br/>
+Because this is not supposed to be usefull in any way, Minikube persistent Volumes are not mounted from host machine so not persistent over vagrant recreations<br/>
 Resulting UI are availabe on ad-hoc urls like `host:nonStandardPort` just because it didn't seem to be important. Automation was supposed to be kept as simple as possible, so some operations were done bash-script style, to avoid overcomplication and importing tons of third-party roles.
 
 ## Dependencies
@@ -26,7 +26,8 @@ This demo is a helloworld-ish application written in Golang, which renders an ht
 Vagrant is launching a virtual machine and uses ansible playbook to provision Minikube, install helm, set up Concourse CI and configure CD pipeline inside of it.
 
 ## Running
-### Pre-requirements. This set up requires a valid github token [see here how to create one](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line) and a Dockerhub account authorised to push to selected repository
+### Pre-requirements.
+This set up requires a valid github token [see here how to create one](https://help.github.com/en/articles/ allowed to push to this repo as version is tracked in version branch (creating-a-personal-access-token-for-the-command-line) and a Dockerhub account authorised to push to selected repository
 
 ### Step-by-step instructions
 0. Install Vagrant and Virtualbox (instructions above) on a powerfull enough machine.

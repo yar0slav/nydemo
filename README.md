@@ -27,7 +27,7 @@ Vagrant is launching a virtual machine and uses ansible playbook to provision Mi
 
 ## Running
 ### Pre-requirements.
-This set up requires a valid github token [see here how to create one](https://help.github.com/en/articles/) allowed to push to this repo as version is tracked in version branch (creating-a-personal-access-token-for-the-command-line) and a Dockerhub account authorised to push to selected repository
+This set up requires a valid github token ([see here how to create one](https://help.github.com/en/articles/)) allowed to push to this repo as version is tracked in version branch (creating-a-personal-access-token-for-the-command-line) and a Dockerhub account authorised to push to selected repository
 
 ### Step-by-step instructions
 0. Install Vagrant and Virtualbox (instructions above) on a powerfull enough machine.

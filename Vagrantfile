@@ -4,6 +4,7 @@ Vagrant.configure("2") do |config|
 
     config.vm.define 'minikube' do |machine|
       machine.vm.box = "ubuntu/xenial64"
+      machine.disksize.size = "20GB"
       machine.vm.hostname = 'minikube'
       machine.vm.network :private_network,ip: "172.16.10.10"
       machine.vm.provider "virtualbox" do |vbox|

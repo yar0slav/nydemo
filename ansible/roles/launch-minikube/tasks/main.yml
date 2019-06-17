@@ -5,7 +5,7 @@
     become_user: vagrant
     command: >
       sudo /usr/local/bin/minikube start --vm-driver none 
-      --memory 4096 --cpus 2
+      --memory 7168 --cpus 2
       --extra-config=kubelet.EvictionSoft="memory.available<500Mi,nodefs.available<1Gi,imagefs.available<1Gi" 
       --extra-config=kubelet.EvictionHard="memory.available<300Mi,nodefs.available<600Mi,imagefs.available<600Mi" 
       --extra-config=kubelet.EvictionMinimumReclaim="memory.available=150Mi,nodefs.available=300Mi,imagefs.available=300Mi" 

@@ -45,7 +45,7 @@ cd nydemo
 ```
 3. Give your credentials:
 ```
-cp ci/credentials.yaml.dist credentials.yaml
+cp ci/credentials.yaml.dist ci/credentials.yaml
 ```
 and fill it with your data
 
